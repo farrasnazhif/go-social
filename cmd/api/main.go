@@ -10,6 +10,9 @@ import (
 func main() {
 	cfg := config{
 		addr: env.GetString("ADDR", ":8080"),
+		db: dbConfig{
+			addr: env.GetString("DB_ADDR", ""),
+		},
 	}
 
 	store := store.NewStorage(nil)
