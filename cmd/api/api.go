@@ -35,16 +35,17 @@ func (app *application) mount() http.Handler {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Logger)
 
-	r.Route("/v1", func(r chi.Router) {
+	r.Route("/api/v1", func(r chi.Router) {
 		r.Get("/health", app.healthCheckHandler)
 
 		// POST /v1/posts
 		r.Route("/posts", func(r chi.Router) {
 			r.Post("/", app.createPostHandler)
 
-			// GET /v1/posts/postID
+			// GET, DELETE /v1/posts/postID
 			r.Route("/{postID}", func(r chi.Router) {
 				r.Get("/", app.getPostHandler)
+				r.Delete("/", app.deletePostHandler)
 			})
 		})
 
