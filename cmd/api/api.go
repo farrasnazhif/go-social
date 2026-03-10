@@ -42,10 +42,14 @@ func (app *application) mount() http.Handler {
 		r.Route("/posts", func(r chi.Router) {
 			r.Post("/", app.createPostHandler)
 
-			// GET, DELETE /v1/posts/postID
+			// GET, DELETE, UPDATE /v1/posts/postID
 			r.Route("/{postID}", func(r chi.Router) {
+				// to receive current post context (data) when we want to update the post
+				r.Use(app.postsContextMiddleware)
+
 				r.Get("/", app.getPostHandler)
 				r.Delete("/", app.deletePostHandler)
+				r.Patch("/", app.updatePostHandler)
 			})
 		})
 
