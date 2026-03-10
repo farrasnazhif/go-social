@@ -44,7 +44,7 @@ func (app *application) mount() http.Handler {
 
 			// GET, DELETE, UPDATE /v1/posts/postID
 			r.Route("/{postID}", func(r chi.Router) {
-				// to receive current post context (data) when we want to update the post
+				// to receive current post context (data) / fetching the post to receive current context (data)
 				r.Use(app.postsContextMiddleware)
 
 				r.Get("/", app.getPostHandler)
