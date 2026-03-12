@@ -9,6 +9,7 @@ import (
 
 var (
 	ErrNotFound          = errors.New("Route not found")
+	ErrConflict          = errors.New("Update conflict")
 	QueryTimeoutDuration = time.Second * 5
 )
 
