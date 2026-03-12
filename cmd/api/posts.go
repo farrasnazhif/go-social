@@ -153,6 +153,8 @@ func (app *application) postsContextMiddleware(next http.Handler) http.Handler {
 			switch {
 			case errors.Is(err, store.ErrNotFound):
 				app.notFoundResponse(w, r, err)
+			case errors.Is(err, store.ErrConflict):
+				app.conflictResponse(w, r, err)
 			default:
 				app.internalServerError(w, r, err)
 			}

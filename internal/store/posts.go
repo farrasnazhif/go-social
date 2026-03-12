@@ -137,6 +137,13 @@ func (s *PostStore) Update(ctx context.Context, post *Post) error {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
 			return ErrNotFound
+
+		case func() bool {
+			pqErr, ok := err.(*pq.Error)
+			return ok && pqErr.Code == "23505"
+		}():
+			return ErrConflict
+
 		default:
 			return err
 		}
