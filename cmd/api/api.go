@@ -45,7 +45,8 @@ func (app *application) mount() http.Handler {
 
 			// GET, DELETE, UPDATE /api/v1/posts/{postID}
 			r.Route("/{postID}", func(r chi.Router) {
-				// to receive current post context (data) / fetching the post to receive current context (data)
+				// fetch post by ID, use for patch/put method
+				// we need to fetch by ID first before updating
 				r.Use(app.postsContextMiddleware)
 
 				r.Get("/", app.getPostHandler)
@@ -57,6 +58,8 @@ func (app *application) mount() http.Handler {
 		// GET /api/v1/users/{userID}
 		r.Route("/users", func(r chi.Router) {
 			r.Route("/{userID}", func(r chi.Router) {
+				r.Use(app.usersContextMiddleware)
+
 				r.Get("/", app.getUserHandler)
 			})
 		})
