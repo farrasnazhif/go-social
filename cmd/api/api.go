@@ -36,13 +36,14 @@ func (app *application) mount() http.Handler {
 	r.Use(middleware.Logger)
 
 	r.Route("/api/v1", func(r chi.Router) {
+		// GET //api/v1/health
 		r.Get("/health", app.healthCheckHandler)
 
-		// POST /v1/posts
+		// POST /api/v1/posts
 		r.Route("/posts", func(r chi.Router) {
 			r.Post("/", app.createPostHandler)
 
-			// GET, DELETE, UPDATE /v1/posts/postID
+			// GET, DELETE, UPDATE /api/v1/posts/{postID}
 			r.Route("/{postID}", func(r chi.Router) {
 				// to receive current post context (data) / fetching the post to receive current context (data)
 				r.Use(app.postsContextMiddleware)
@@ -50,6 +51,13 @@ func (app *application) mount() http.Handler {
 				r.Get("/", app.getPostHandler)
 				r.Delete("/", app.deletePostHandler)
 				r.Patch("/", app.updatePostHandler)
+			})
+		})
+
+		// GET /api/v1/users/{userID}
+		r.Route("/users", func(r chi.Router) {
+			r.Route("/{userID}", func(r chi.Router) {
+				r.Get("/", app.getUserHandler)
 			})
 		})
 
