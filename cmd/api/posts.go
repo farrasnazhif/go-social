@@ -21,6 +21,19 @@ type CreatePostPayload struct {
 	Tags    []string `json:"tags"`
 }
 
+// CreatePost godoc
+//
+//	@Summary		Create a new post
+//	@Description	Create a post with title, content, and optional tags
+//	@Tags			posts
+//	@Accept			json
+//	@Produce		json
+//	@Param			payload	body		CreatePostPayload	true	"Post payload"
+//	@Success		201		{object}	store.Post
+//	@Failure		400		{object}	error	"Invalid payload"
+//	@Failure		500		{object}	error
+//	@Security		ApiKeyAuth
+//	@Router			/posts [post]
 func (app *application) createPostHandler(w http.ResponseWriter, r *http.Request) {
 	var payload CreatePostPayload
 	if err := readJSON(w, r, &payload); err != nil {
@@ -54,6 +67,18 @@ func (app *application) createPostHandler(w http.ResponseWriter, r *http.Request
 	}
 }
 
+// GetPost godoc
+//
+//	@Summary		Get a post
+//	@Description	Get a post by ID including its comments
+//	@Tags			posts
+//	@Accept			json
+//	@Produce		json
+//	@Param			postID	path		int	true	"Post ID"
+//	@Success		200		{object}	store.Post
+//	@Failure		404		{object}	error	"Post not found"
+//	@Failure		500		{object}	error
+//	@Router			/posts/{postID} [get]
 func (app *application) getPostHandler(w http.ResponseWriter, r *http.Request) {
 	post := getPostFromCtx(r)
 
@@ -65,12 +90,25 @@ func (app *application) getPostHandler(w http.ResponseWriter, r *http.Request) {
 
 	post.Comments = comments
 
-	if err := app.jsonResponse(w, http.StatusOK, "Post retreived successfully", post); err != nil {
+	if err := app.jsonResponse(w, http.StatusOK, "Post retrieved successfully", post); err != nil {
 		app.internalServerError(w, r, err)
 		return
 	}
 }
 
+// DeletePost godoc
+//
+//	@Summary		Delete a post
+//	@Description	Delete a post by ID
+//	@Tags			posts
+//	@Accept			json
+//	@Produce		json
+//	@Param			postID	path		int	true	"Post ID"
+//	@Success		204		{string}	string	"No Content"
+//	@Failure		404		{object}	error	"Post not found"
+//	@Failure		500		{object}	error
+//	@Security		ApiKeyAuth
+//	@Router			/posts/{postID} [delete]
 func (app *application) deletePostHandler(w http.ResponseWriter, r *http.Request) {
 	idParam := chi.URLParam(r, "postID")
 	id, err := strconv.ParseInt(idParam, 10, 64)
@@ -101,6 +139,22 @@ type UpdatePostPayload struct {
 	Content *string `json:"content" validate:"omitempty,max=1000"`
 }
 
+// UpdatePost godoc
+//
+//	@Summary		Update a post
+//	@Description	Update post title and/or content
+//	@Tags			posts
+//	@Accept			json
+//	@Produce		json
+//	@Param			postID	path		int					true	"Post ID"
+//	@Param			payload	body		UpdatePostPayload	true	"Post update payload"
+//	@Success		200		{object}	store.Post
+//	@Failure		400		{object}	error	"Invalid payload"
+//	@Failure		404		{object}	error	"Post not found"
+//	@Failure		409		{object}	error	"Conflict error"
+//	@Failure		500		{object}	error
+//	@Security		ApiKeyAuth
+//	@Router			/posts/{postID} [patch]
 func (app *application) updatePostHandler(w http.ResponseWriter, r *http.Request) {
 	post := getPostFromCtx(r)
 
