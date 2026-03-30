@@ -19,7 +19,7 @@ migrate-down:
 
 .PHONY: gen-docs
 gen-docs:
-	@swag init -g ./api/main.go -d cmd,internal && swag fmt
+	$(shell go env GOPATH)/bin/swag init -g ./api/main.go -d cmd,internal && swag fmt
 
 .PHONY: seed
 seed: 
