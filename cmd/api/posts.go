@@ -103,7 +103,7 @@ func (app *application) getPostHandler(w http.ResponseWriter, r *http.Request) {
 //	@Tags			posts
 //	@Accept			json
 //	@Produce		json
-//	@Param			postID	path		int	true	"Post ID"
+//	@Param			postID	path		int		true	"Post ID"
 //	@Success		204		{string}	string	"No Content"
 //	@Failure		404		{object}	error	"Post not found"
 //	@Failure		500		{object}	error

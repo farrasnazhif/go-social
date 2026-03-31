@@ -50,10 +50,10 @@ type FollowUser struct {
 //	@Produce		json
 //	@Param			userID	path		int			true	"User ID"
 //	@Param			payload	body		FollowUser	true	"User to follow"
-//	@Success		204		{string}	string	"User followed"
-//	@Failure		400		{object}	error	"User payload missing"
-//	@Failure		404		{object}	error	"User not found"
-//	@Failure		409		{object}	error	"Conflict error"
+//	@Success		204		{string}	string		"User followed"
+//	@Failure		400		{object}	error		"User payload missing"
+//	@Failure		404		{object}	error		"User not found"
+//	@Failure		409		{object}	error		"Conflict error"
 //	@Failure		500		{object}	error
 //	@Security		ApiKeyAuth
 //	@Router			/users/{userID}/follow [put]
@@ -85,12 +85,12 @@ func (app *application) followUserHandler(w http.ResponseWriter, r *http.Request
 //	@Tags			users
 //	@Accept			json
 //	@Produce		json
-//	@Param			userID	path		int	true	"User ID"
+//	@Param			userID	path		int			true	"User ID"
 //	@Param			payload	body		FollowUser	true	"User to unfollow"
-//	@Success		204		{string}	string	"User unfollowed"
-//	@Failure		400		{object}	error	"User payload missing"
-//	@Failure		404		{object}	error	"User not found"
-//	@Failure		409		{object}	error	"Conflict error"
+//	@Success		204		{string}	string		"User unfollowed"
+//	@Failure		400		{object}	error		"User payload missing"
+//	@Failure		404		{object}	error		"User not found"
+//	@Failure		409		{object}	error		"Conflict error"
 //	@Failure		500		{object}	error
 //	@Security		ApiKeyAuth
 //	@Router			/users/{userID}/unfollow [put]
