@@ -71,6 +71,8 @@ func (app *application) mount() http.Handler {
 
 		// GET /api/v1/users/{userID}
 		r.Route("/users", func(r chi.Router) {
+			r.Put("/activate/{token}", app.activateUserHandler)
+
 			r.Route("/{userID}", func(r chi.Router) {
 				r.Use(app.usersContextMiddleware)
 
